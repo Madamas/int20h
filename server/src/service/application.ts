@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb'
+import { FilterQuery, UpdateQuery } from 'mongoose'
 
 import ApplicationModel from '@src/model/application'
 
@@ -28,6 +29,19 @@ class ApplicationService {
 
     async getById(id: ObjectId): Promise<ApplicationDoc | null> {
         return ApplicationModel.findById(id)
+    }
+
+    async getBySpatial(lon: number, lat: number): Promise<ApplicationDoc[]> {
+        // lon lat
+        const query: FilterQuery<ApplicationDoc> = {
+            geo: {
+                $geoWithin: {
+                    $centerSphere: [[lon, lat], 500]
+                }
+            }
+        }
+
+        return ApplicationModel.find(query)
     }
 }
 
