@@ -1,6 +1,7 @@
 import { Document } from 'mongoose'
+import { ObjectId } from 'mongodb'
 
-export enum AnimalKind {
+export enum Kind {
     Cat = 'cat',
     Dog = 'dog',
     Bird = 'bird',
@@ -86,19 +87,29 @@ export enum Sex {
     Female = 'female'
 }
 
+export enum GeoTypes {
+    Point = 'Point'
+}
 export interface ApplicationCoordinates {
-    lat: number
-    lng: number
+    type: GeoTypes
+    coordinates: [number, number]
+}
+
+export enum ApplicationType {
+    Lost = 'lost',
+    Found = 'found'
 }
 
 export interface Application {
-    kind: AnimalKind
+    type: ApplicationType
+    kind: Kind
     breed: Breed
     color: Color
     size: Size
-    coordinates: ApplicationCoordinates
+    geo: ApplicationCoordinates
     special: string[]
     sex: Sex
+    userId: ObjectId
 }
 
 export interface ApplicationDoc extends Application, Document { }

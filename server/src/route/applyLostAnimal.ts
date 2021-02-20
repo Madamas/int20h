@@ -2,7 +2,9 @@ import { JSONSchemaType } from 'ajv'
 
 import { Route, UserRouteParams } from '@interfaces/route'
 import { RouteRequestData, RouteResponse } from '@interfaces/route/applyFindAnimal'
-import { AnimalKind, Color, Sex, Size } from '@interfaces/model/application'
+import { ApplicationType, Kind, Color, Sex, Size } from '@interfaces/model/application'
+import ApplicationService from '@src/service/application'
+import InverseIndexService from '@src/service/inverseIndex'
 
 class ApplyFindAnimalRoute implements Route<RouteRequestData> {
     readonly isAuthProtected: boolean = true
@@ -10,18 +12,14 @@ class ApplyFindAnimalRoute implements Route<RouteRequestData> {
     validationSchema: JSONSchemaType<RouteRequestData> = {
         type: 'object',
         properties: {
-            kind: { type: 'string', enum: Object.values(AnimalKind) },
+            kind: { type: 'string', enum: Object.values(Kind) },
             breed: { type: 'string' },
             color: { type: 'string', enum: Object.values(Color) },
             size: { type: 'string', enum: Object.values(Size) },
             sex: { type: 'string', enum: Object.values(Sex) },
             coordinates: {
-                type: 'object',
-                properties: {
-                    lat: { type: 'number' },
-                    lng: { type: 'number' }
-                },
-                required: ['lat', 'lng']
+                type: 'array',
+                items: { type: 'number' }
             },
             special: {
                 type: 'array',
@@ -32,6 +30,10 @@ class ApplyFindAnimalRoute implements Route<RouteRequestData> {
     }
 
     async handler(params: UserRouteParams<RouteRequestData>): Promise<RouteResponse> {
+        const application = await ApplicationService.create(params.user._id, ApplicationType.Lost, params.data)
+
+        await InverseIndexService.create(application._id, params.data.breed, params.data.color, params.data.size, params.data.sex, params.data.kind)
+
         return { success: true }
     }
 }

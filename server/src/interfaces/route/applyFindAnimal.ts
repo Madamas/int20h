@@ -1,6 +1,6 @@
-import { Application } from '@interfaces/model/application'
+import { ApplicationRequest } from '@interfaces/service/application'
 
-export type RouteRequestData = Application
+export type RouteRequestData = ApplicationRequest
 
 export interface RouteResponse {
     success: boolean
