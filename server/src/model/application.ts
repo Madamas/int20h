@@ -16,6 +16,7 @@ const applicationSchema: Schema = new Schema(
         },
         sex: { type: String, required: true },
         userId: { type: ObjectId, required: true },
+        image: { type: String },
         special: { type: Array(String) }
     },
     {

@@ -6,7 +6,7 @@ import { ApplicationType, Kind, Color, Sex, Size } from '@interfaces/model/appli
 import ApplicationService from '@src/service/application'
 import InverseIndexService from '@src/service/inverseIndex'
 
-class ApplyFindAnimalRoute implements Route<RouteRequestData> {
+class ApplyLostAnimalRoute implements Route<RouteRequestData> {
     readonly isAuthProtected: boolean = true
 
     validationSchema: JSONSchemaType<RouteRequestData> = {
@@ -24,9 +24,10 @@ class ApplyFindAnimalRoute implements Route<RouteRequestData> {
             special: {
                 type: 'array',
                 items: { type: 'string' }
-            }
+            },
+            image: { type: 'string' }
         },
-        required: ['kind', 'breed', 'color', 'size', 'sex', 'coordinates', 'special'],
+        required: ['kind', 'breed', 'color', 'size', 'sex', 'coordinates'],
     }
 
     async handler(params: UserRouteParams<RouteRequestData>): Promise<RouteResponse> {
@@ -38,4 +39,4 @@ class ApplyFindAnimalRoute implements Route<RouteRequestData> {
     }
 }
 
-export default new ApplyFindAnimalRoute()
+export default new ApplyLostAnimalRoute()

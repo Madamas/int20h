@@ -25,9 +25,14 @@ class ApplyFoundAnimalRoute implements Route<RouteRequestData> {
             special: {
                 type: 'array',
                 items: { type: 'string' }
-            }
+            },
+            image: { type: 'string' }
         },
-        required: ['kind', 'breed', 'color', 'size', 'sex', 'coordinates', 'special'],
+        oneOf: [
+            { required: ['kind', 'breed', 'color', 'size', 'sex'] }, // web 
+            { required: ['kind', 'coordinates', 'image'] } // tg
+        ],
+        required: []
     }
 
     async handler(params: UserRouteParams<RouteRequestData>): Promise<RouteResponse> {
@@ -39,17 +44,28 @@ class ApplyFoundAnimalRoute implements Route<RouteRequestData> {
             size,
             sex,
             kind,
+            coordinates,
         } = params.data;
 
         const similars = await InverseIndexService.getByTags(breed, color, size, sex, kind)
 
-        const objSim = similars
+        let objSim = similars
             ? similars.toObject()
             : null;
 
+        let objArr = get(objSim, `${sex}.${kind}.${size}.${color}.${breed}`, [])
+        let objSet = new Set<string>(objArr)
+
+        if (coordinates) {
+            const spatialSimilars = await ApplicationService.getBySpatial(coordinates[0], coordinates[1])
+            spatialSimilars.forEach((value) => {
+                objSet.add(value._id)
+            })
+        }
+
         return {
             success: true,
-            similars: get(objSim, `${sex}.${kind}.${size}.${color}.${breed}`, [])
+            similars: [...objSet]
         }
     }
 }
