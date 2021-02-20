@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { LostPet } from './pages/LostPet';
+import { SignUp } from './pages/SignUp';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -38,6 +39,9 @@ export default function App() {
             <Switch>
               <Route path="/lostpet">
                 <LostPet />
+              </Route>
+              <Route path="/signup">
+                <SignUp />
               </Route>
             </Switch>
           </Router>
