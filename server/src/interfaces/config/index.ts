@@ -11,11 +11,19 @@ export default interface Config {
     isLocal(): boolean
     isDev(): boolean
     isProd(): boolean
+    package: {
+        name: string
+        version: string
+    }
     port: number
     db: {
         uri: string
     }
     logger: {
         level: Level
+    }
+    bot: {
+        telegramToken: string,
+        welcomeAnimationId: string
     }
 }

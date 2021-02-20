@@ -10,6 +10,8 @@ import logger from '@src/logger'
 import middleware from '@src/middleware'
 import route from '@src/route'
 
+import { botApp } from '@src/bot'
+
 class Main {
     private static readonly app = new Koa()
 
@@ -26,6 +28,9 @@ class Main {
             config.port,
             () => logger.info(`Application started on ${config.port} port`)
         )
+
+        await botApp.launch()
+        logger.info('Launched bot application')
     }
 }
 
