@@ -1,0 +1,6 @@
+*.code-workspace
+node_modules/
+dist/
+.env
+launch.json
+.DS_Store
