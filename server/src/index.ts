@@ -1,5 +1,5 @@
 import 'module-alias/register'
-import 'dotenv-safe/config'
+import 'dotenv/config'
 import Koa from 'koa'
 import mongoose from 'mongoose'
 

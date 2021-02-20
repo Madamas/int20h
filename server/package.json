@@ -5,7 +5,7 @@
   "author": "CAN-gurtok",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf ./dist && tsc",
+    "build": "rm -rf ./dist && tsc -b",
     "watch": "nodemon --watch \"src/**\" --ext \"ts\" --exec \"yarn build && yarn start\"",
     "lint": "eslint .",
     "start": "node dist/index.js | pino-pretty -t"
@@ -27,7 +27,7 @@
     "@types/uuid": "^8.3.0",
     "ajv": "^7.0.3",
     "ajv-keywords": "^4.0.0",
-    "dotenv-safe": "^8.2.0",
+    "dotenv": "^8.2.0",
     "got": "^11.8.1",
     "http-status": "^1.5.0",
     "koa": "^2.13.1",
