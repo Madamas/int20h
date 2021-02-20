@@ -1,6 +1,7 @@
 import * as Koa from 'koa'
 import koaBodyparser from 'koa-bodyparser'
 import koaStatic from 'koa-static'
+import cors from '@koa/cors';
 
 import { alsMiddleware } from './als'
 import { loggerMiddleware } from './logger'
@@ -13,6 +14,7 @@ class Middleware {
             .use(errorHandlerMiddleware)
             .use(koaBodyparser())
             .use(loggerMiddleware)
+            .use(cors())
     }
 }
 

@@ -17,8 +17,10 @@ RUN yarn install --frozen-lockfile
 COPY client/ /opt/app/client/
 RUN yarn build
 
-RUN ["cp", "-r", "/opt/app/client/build/", "/opt/app/server/dist/client/"]
+RUN ["cp", "-r", "/opt/app/client/build/", "/opt/app/server/public/"]
 
 EXPOSE "${PORT}"
+
+WORKDIR /opt/app/server
 
 CMD ["node", "/opt/app/server/dist/index.js"]
