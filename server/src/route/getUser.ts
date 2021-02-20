@@ -1,7 +1,7 @@
 import { Route, UserRouteParams } from '@interfaces/route'
 import { RouteRequestData, RouteResponse } from '@interfaces/route/getUser'
 
-class SignUpRoute implements Route<RouteRequestData> {
+class GetUserRoute implements Route<RouteRequestData> {
     readonly isAuthProtected: boolean = true
 
     async handler(params: UserRouteParams<RouteRequestData>): Promise<RouteResponse> {
@@ -11,4 +11,4 @@ class SignUpRoute implements Route<RouteRequestData> {
     }
 }
 
-export default new SignUpRoute()
+export default new GetUserRoute()

@@ -9,7 +9,7 @@ import { UserDoc } from '@interfaces/model/user'
 import { SessionDoc } from '@interfaces/model/session'
 import UnauthorizedError from '@src/errors/UnauthorizedError'
 
-class SignUpRoute implements Route<RouteRequestData> {
+class SignInRoute implements Route<RouteRequestData> {
     readonly isAuthProtected: boolean = false
 
     validationSchema: JSONSchemaType<RouteRequestData> = {
@@ -35,4 +35,4 @@ class SignUpRoute implements Route<RouteRequestData> {
     }
 }
 
-export default new SignUpRoute()
+export default new SignInRoute()
