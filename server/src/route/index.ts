@@ -10,6 +10,8 @@ import userService from '@src/service/user'
 import signUp from './signUp'
 import signIn from './signIn'
 import getUser from './getUser'
+import applyFoundAnimal from './applyFoundAnimal'
+import applyFindAnimal from './applyFindAnimal'
 
 import ValidationError from '@src/errors/ValidationError'
 import UnauthorizedError from '@src/errors/UnauthorizedError'
@@ -29,6 +31,8 @@ class RouteHandler {
         this.router.post('/api/sign-up', this.handleRoute(signUp))
         this.router.post('/api/sign-in', this.handleRoute(signIn))
         this.router.get('/api/user', this.handleRoute(getUser))
+        this.router.post('/api/application-found', this.handleRoute(applyFoundAnimal))
+        this.router.post('/api/application-find', this.handleRoute(applyFindAnimal))
 
         app.use(this.router.routes())
         app.use(this.router.allowedMethods())
