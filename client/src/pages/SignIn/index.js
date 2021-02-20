@@ -8,20 +8,15 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { signUp } from '../../api';
+import { signIn } from '../../api';
 import { useStyles } from './styles';
 
 
-export function SignUp() {
+export function SignIn() {
   const classes = useStyles();
 
-  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleChangeEmail = (event) => {
-    setEmail(event.target.value);
-  }
 
   const handleChangeName = (event) => {
     setName(event.target.value);
@@ -32,7 +27,7 @@ export function SignUp() {
   }
 
   const handleClick = async () => {
-    const response = await signUp({ email, name, password });
+    const response = await signIn({ name, password });
     console.log(response);
   }
 
@@ -46,18 +41,6 @@ export function SignUp() {
             Sign Up
           </Typography>
           <div className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              onChange={handleChangeEmail}
-              autoFocus
-            />
              <TextField
               variant="outlined"
               margin="normal"
@@ -97,7 +80,7 @@ export function SignUp() {
             <Grid container>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Do you have an account? Sign Ip"}
+                  {"Do you have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>

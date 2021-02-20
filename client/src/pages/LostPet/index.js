@@ -74,29 +74,35 @@ export const LostPet = () => {
     <Grid container spacing={2} style={{ minWidth: '1340px' }}>
       <Grid item xs={7}>
         <Paper className={s.paper}>
-          <Selector
-            handleChangeCallback={handleChangeSizeCallback}
-            options={sizeOptions}
-            value={size}
-            title="Size"
-          />
-          <Selector
-            handleChangeCallback={handleChangeKindCallback}
-            options={kindOptions}
-            value={kind}
-            title="Kind"
-          />
-          <Selector
-            handleChangeCallback={handleChangeColorCallback}
-            options={colorOptions}
-            value={color}
-            title="Color"
-          />
-          <div>
-            <Map userPosition={userPosition} circleRadius={mapOffset} />
-            <Range handleChangeCallback={handleChangeOffsetMapCallback} />
-          </div>
-          <Button color="primary">Submit</Button>
+          <Grid container spacing={2} justify="space-between">
+            <Grid item xs={6}>
+              <Grid container direction="column">
+                <Selector
+                  handleChangeCallback={handleChangeSizeCallback}
+                  options={sizeOptions}
+                  value={size}
+                  title="Розмір"
+                />
+                <Selector
+                  handleChangeCallback={handleChangeKindCallback}
+                  options={kindOptions}
+                  value={kind}
+                  title="Вид"
+                />
+                <Selector
+                  handleChangeCallback={handleChangeColorCallback}
+                  options={colorOptions}
+                  value={color}
+                  title="Колір"
+                />
+                <Range handleChangeCallback={handleChangeOffsetMapCallback} />
+                <Button color="primary">Надіслати</Button>
+              </Grid>
+            </Grid>
+            <Grid item xs={6}>
+              <Map userPosition={userPosition} circleRadius={mapOffset} />
+            </Grid>
+          </Grid>
         </Paper>
       </Grid>
       <Grid item xs={4}>

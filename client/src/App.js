@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { LostPet } from './pages/LostPet';
 import { SignUp } from './pages/SignUp';
+import { SignIn } from './pages/SignIn';
+import { Home } from './pages/Home';
 
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -42,6 +44,12 @@ export default function App() {
               </Route>
               <Route path="/signup">
                 <SignUp />
+              </Route>
+              <Route path="/signin">
+                <SignIn />
+              </Route>
+              <Route path="/">
+                <Home />
               </Route>
             </Switch>
           </Router>
