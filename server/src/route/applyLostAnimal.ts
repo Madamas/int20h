@@ -24,8 +24,7 @@ class ApplyLostAnimalRoute implements Route<RouteRequestData> {
             special: {
                 type: 'array',
                 items: { type: 'string' }
-            },
-            image: { type: 'string' }
+            }
         },
         required: ['kind', 'breed', 'color', 'size', 'sex', 'coordinates'],
     }

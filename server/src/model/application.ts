@@ -1,21 +1,22 @@
 import { model, Schema } from 'mongoose'
 import { ObjectId, } from 'mongodb'
 
-import { ApplicationDoc, GeoType } from '@interfaces/model/application'
+import { ApplicationDoc, ApplicationType, GeoType } from '@interfaces/model/application'
 
 const applicationSchema: Schema = new Schema(
     {
-        type: { type: String, required: true },
+        type: { type: String, enum: Object.values(ApplicationType), required: true },
         kind: { type: String, required: true },
-        breed: { type: String, required: true },
-        color: { type: String, required: true },
-        size: { type: String, required: true },
+        breed: { type: String },
+        color: { type: String },
+        size: { type: String },
         geo: {
             type: { type: String, default: GeoType.Point },
             coordinates: { type: [Number], default: [0, 0] }
         },
-        sex: { type: String, required: true },
-        userId: { type: ObjectId, required: true },
+        sex: { type: String },
+        userId: { type: ObjectId },
+        userTgId: { type: Number },
         image: { type: String },
         special: { type: Array(String) }
     },

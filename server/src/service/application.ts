@@ -27,6 +27,10 @@ class ApplicationService {
         return ApplicationModel.create(application)
     }
 
+    createFromTelegram(application: Application): Promise<ApplicationDoc> {
+        return ApplicationModel.create(application)
+    }
+
     async getById(id: ObjectId): Promise<ApplicationDoc | null> {
         return ApplicationModel.findById(id)
     }

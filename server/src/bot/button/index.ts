@@ -2,11 +2,14 @@ import { URL } from 'url'
 
 import { Markup } from 'telegraf'
 
+import applicationService from '@src/service/application'
+
 import foundCat from './foundCat'
 import foundDog from './foundDog'
 import foundBird from './foundBird'
 
 import { Button, TelegrafBot } from '@interfaces/bot'
+import { Application, ApplicationType, GeoType, Kind } from '@interfaces/model/application'
 
 class ButtonListener {
     set(bot: TelegrafBot): void {
@@ -39,7 +42,7 @@ class ButtonListener {
         })
 
         bot.on('location', async ctx => {
-            if (!ctx.session.request) {
+            if (!ctx.session.request?.photo) {
                 return ctx.reply('Тепер я знаю де ти, дякую :)')
             }
 
@@ -48,6 +51,18 @@ class ButtonListener {
                 [Button.FoundCat, Button.FoundDog, Button.FoundBird],
                 { columns: 3 }
             ).resize()
+
+            const { kind, coordinates, photo } = ctx.session.request
+            const application: Application = {
+                type: ApplicationType.Found,
+                kind: <Kind>kind,
+                geo: { type: GeoType.Point, coordinates },
+                special: [],
+                userTgId: ctx.message.from.id,
+                image: photo
+            }
+
+            await applicationService.createFromTelegram(application)
 
             return ctx.reply('Дякую за допомогу! Ти надкрутий 🦸', keyboard)
         })
