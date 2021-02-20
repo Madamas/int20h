@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb'
 
 import ApplicationModel from '@src/model/application'
 
-import { Application, ApplicationDoc, ApplicationType, GeoTypes } from '@interfaces/model/application'
+import { Application, ApplicationDoc, ApplicationType, GeoType } from '@interfaces/model/application'
 
 import { ApplicationRequest } from '@interfaces/service/application'
 
@@ -17,7 +17,7 @@ class ApplicationService {
             userId,
             type,
             geo: {
-                type: GeoTypes.Point,
+                type: GeoType.Point,
                 coordinates: [coordinates[0], coordinates[1]]
             },
             ...rest
