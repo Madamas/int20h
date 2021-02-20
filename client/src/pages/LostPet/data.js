@@ -2,59 +2,51 @@ import { PET_SIZE, ANIMAL_KIND, COLOR } from '../../config';
 
 
 export const colorOptions = [
-  // {
-  //   value: COLOR.bitcolor,
-  //   text: 'bitcolor',
-  // },
-  // {
-  //   value: COLOR.tricolor,
-  //   text: 'tricolor',
-  // },
   {
     value: COLOR.black,
-    text: 'black',
+    text: 'Чорний',
   },
   {
     value: COLOR.white,
-    text: 'white',
+    text: 'Білий',
   },
   {
     value: COLOR.brown,
-    text: 'brown',
+    text: 'Коричневий',
   },
   {
     value: COLOR.grey,
-    text: 'grey',
+    text: 'Сірий',
   },
 ]
 
 export const sizeOptions = [
   {
     value: PET_SIZE.Large,
-    text: 'Large',
+    text: 'Великий',
   },
   {
     value: PET_SIZE.Medium,
-    text: 'Medium',
+    text: 'Середній',
   },
   {
     value: PET_SIZE.Small,
-    text: 'Small',
+    text: 'Малий',
   },
 ];
 
 export const kindOptions = [
   {
     value: ANIMAL_KIND.Bird,
-    text: 'Bird',
+    text: 'Птах',
   },
   {
     value: ANIMAL_KIND.Cat,
-    text: 'Cat',
+    text: 'Кішка',
   },
   {
     value: ANIMAL_KIND.Dog,
-    text: 'Dog',
+    text: 'Собака',
   },
 ];
 

@@ -1,19 +1,19 @@
 import React from 'react';
+import cs from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
-import ExploreIcon from '@material-ui/icons/Explore';
 
 const useStyles = makeStyles({
   root: {
-    width: 250,
+    width: '100%',
   },
-  input: {
-    width: 42,
-  },
+  container: {
+    padding: '8px',
+  }
 });
 
-export function Range({handleChangeCallback}) {
+export function Range({ handleChangeCallback }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(30);
 
@@ -22,21 +22,17 @@ export function Range({handleChangeCallback}) {
     handleChangeCallback(newValue);
   };
 
-
   return (
-    <div className={classes.root}>
-      <Grid container spacing={2} alignItems="center">
-        <Grid item>
-          <ExploreIcon />
-        </Grid>
-        <Grid item xs>
-          <Slider
-            value={typeof value === 'number' ? value : 0}
-            onChange={handleSliderChange}
-            aria-labelledby="input-slider"
-          />
-        </Grid>
-      </Grid>
+    <div className={cs(classes.root, classes.container)}>
+      <Slider
+        value={typeof value === 'number' ? value : 0}
+        onChange={handleSliderChange}
+        aria-labelledby="input-slider"
+        valueLabelDisplay="auto"
+      />
+      <Typography id="input-slider">
+        Радіус пошуку
+      </Typography>
     </div>
   );
 }
