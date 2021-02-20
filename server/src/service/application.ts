@@ -27,8 +27,11 @@ class ApplicationService {
         return ApplicationModel.create(application)
     }
 
-    createFromTelegram(application: Application): Promise<ApplicationDoc> {
-        return ApplicationModel.create(application)
+    async createFromTelegram(application: Application): Promise<void> {
+        await ApplicationModel.create(application)
+
+        const { geo: { coordinates } } = application
+        const spatialSimilars = await this.getBySpatial(coordinates[0], coordinates[1])
     }
 
     async getById(id: ObjectId): Promise<ApplicationDoc | null> {
