@@ -1,19 +1,11 @@
-FROM node:14.15-alpine
+FROM madamas/int20h-base:1.0.0
 
 WORKDIR /opt/app/server
-
-COPY server/package.json server/yarn.lock server/.env.example /opt/app/server/
-RUN yarn install --frozen-lockfile
-
 COPY server/ /opt/app/server/
 RUN yarn build
 COPY ["server/.env.example", "/opt/app/server/dist/"]
 
 WORKDIR /opt/app/client
-
-COPY client/package.json client/yarn.lock /opt/app/client/
-RUN yarn install --frozen-lockfile
-
 COPY client/ /opt/app/client/
 RUN yarn build
 
