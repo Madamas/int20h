@@ -13,7 +13,7 @@ import { DeviceResponse } from '@interfaces/service/device'
 class DeviceService {
     async addCoordinate(deviceId: string, point: [number, number], date: Date): Promise<void> {
         const query: FilterQuery<DeviceDoc> = { deviceId }
-        const modifier: UpdateQuery<DeviceDoc> = { 'path.coordinates': { $push: point }, lastPathUpdate: date }
+        const modifier: UpdateQuery<DeviceDoc> = { $push: { 'path.coordinates': point }, lastPathUpdate: date }
 
         await DeviceModel.updateOne(query, modifier)
     }
