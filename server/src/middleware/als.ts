@@ -10,7 +10,7 @@ export const alsMiddleware: Koa.Middleware = function (ctx, next) {
         requestId: uuid(),
     }
 
-    return als.run(alsData, () => {
-        next()
+    return als.run(alsData, async () => {
+        await next()
     })
 }

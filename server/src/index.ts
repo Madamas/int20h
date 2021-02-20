@@ -19,7 +19,7 @@ class Main {
         middleware.set(this.app)
         route.set(this.app)
 
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useCreateIndex: true })
         logger.info('Connected to the database')
 
         this.app.listen(
