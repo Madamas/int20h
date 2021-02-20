@@ -111,6 +111,7 @@ export interface Application {
     special: string[]
     sex: Sex
     userId: ObjectId
+    image: string
 }
 
 export interface ApplicationDoc extends Application, Document { }
