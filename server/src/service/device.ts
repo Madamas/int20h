@@ -3,9 +3,12 @@ import { ObjectId } from 'mongodb'
 
 import DeviceModel from '@src/model/device'
 
+import deviceDataMapper from '@src/dataMapper/device'
+
 import NotFoundError from '@src/errors/NotFoundError'
 
 import { DeviceDoc } from '@interfaces/model/device'
+import { DeviceResponse } from '@interfaces/service/device'
 
 class DeviceService {
     async addCoordinate(deviceId: string, point: [number, number], date: Date): Promise<void> {
@@ -23,6 +26,13 @@ class DeviceService {
         if (!device) {
             throw new NotFoundError('Could not find device by the provided deviceId', { deviceId })
         }
+    }
+
+    async getDevices(userId: ObjectId): Promise<DeviceResponse[]> {
+        const query: FilterQuery<DeviceDoc> = { userId }
+        const devices: DeviceDoc[] = await DeviceModel.find(query)
+
+        return devices.map((device: DeviceDoc) => deviceDataMapper.toResponse(device))
     }
 }
 
