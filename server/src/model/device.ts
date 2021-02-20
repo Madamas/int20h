@@ -9,7 +9,7 @@ const deviceSchema: Schema = new Schema(
         deviceId: { type: String, unique: true, required: true },
         path: {
             type: { type: String, default: GeoType.LineString },
-            coordinates: { type: [[Number]] }
+            coordinates: { type: {} }
         },
         lastPathUpdate: { type: Date, required: true },
         animalName: { type: String },
