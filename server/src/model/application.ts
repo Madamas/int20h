@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose'
 import { ObjectId, } from 'mongodb'
 
-import { ApplicationDoc } from '@interfaces/model/application'
+import { ApplicationDoc, GeoType } from '@interfaces/model/application'
 
 const applicationSchema: Schema = new Schema(
     {
@@ -11,7 +11,7 @@ const applicationSchema: Schema = new Schema(
         color: { type: String, required: true },
         size: { type: String, required: true },
         geo: {
-            type: { type: String, default: 'Point' },
+            type: { type: String, default: GeoType.Point },
             coordinates: { type: [Number], default: [0, 0] }
         },
         sex: { type: String, required: true },

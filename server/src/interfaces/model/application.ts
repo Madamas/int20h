@@ -87,11 +87,12 @@ export enum Sex {
     Female = 'female'
 }
 
-export enum GeoTypes {
-    Point = 'Point'
+export enum GeoType {
+    Point = 'Point',
+    LineString = 'LineString'
 }
 export interface ApplicationCoordinates {
-    type: GeoTypes
+    type: GeoType
     coordinates: [number, number]
 }
 

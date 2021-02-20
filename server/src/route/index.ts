@@ -33,6 +33,7 @@ class RouteHandler {
         this.router.get('/api/user', this.handleRoute(getUser))
         this.router.post('/api/application-found', this.handleRoute(applyFoundAnimal))
         this.router.post('/api/application-lost', this.handleRoute(applyLostAnimal))
+        // this.router.post('/api/track', this.handleRoute())
 
         app.use(this.router.routes())
         app.use(this.router.allowedMethods())
