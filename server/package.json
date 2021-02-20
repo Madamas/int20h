@@ -5,7 +5,7 @@
   "author": "CAN-gurtok",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf ./dist && tsc",
+    "build": "rm -rf ./dist && tsc -b",
     "watch": "nodemon --watch \"src/**\" --ext \"ts\" --exec \"yarn build && yarn start\"",
     "lint": "eslint .",
     "start": "node dist/index.js | pino-pretty -t"
@@ -24,18 +24,21 @@
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-static": "^4.0.1",
     "@types/koa__router": "^8.0.4",
+    "@types/lodash": "^4.14.168",
     "@types/uuid": "^8.3.0",
     "ajv": "^7.0.3",
     "ajv-keywords": "^4.0.0",
-    "dotenv-safe": "^8.2.0",
+    "dotenv": "^8.2.0",
     "got": "^11.8.1",
     "http-status": "^1.5.0",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-static": "^5.0.0",
+    "lodash": "^4.17.21",
     "module-alias": "^2.2.2",
     "mongoose": "^5.11.12",
     "pino": "^6.11.0",
+    "telegraf": "^4.0.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
