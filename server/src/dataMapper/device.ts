@@ -9,7 +9,7 @@ class DeviceDataMapper {
             deviceId,
             lastPathUpdate,
             animalName: <string>animalName,
-            coordinates: path.coordinates
+            coordinates: path.coordinates.map(([a1, a2]) => [a2, a1])
         }
     }
 }

@@ -1,5 +1,7 @@
 import nodemailer from 'nodemailer'
 
+import logger from '@src/logger';
+
 class EmailService {
     // @ts-ignore
     private transport
@@ -20,13 +22,17 @@ class EmailService {
         })
     }
 
-    sendMail(to: string, body: string): Promise<nodemailer.SentMessageInfo> {
-        return this.transport.sendMail({
-            from: "lostpussy@noreply.com",
+    async sendMail(to: string, body: string): Promise<void> {
+        logger.info({ to, body }, 'Start sending email')
+
+        const info = await this.transport.sendMail({
+            from: 'lostpussy@noreply.com',
             to,
-            subject: "Possible pet sighting",
+            subject: 'Possible pet sighting',
             text: body
         })
+
+        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     }
 }
 
