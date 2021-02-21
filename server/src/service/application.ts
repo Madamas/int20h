@@ -50,6 +50,16 @@ class ApplicationService {
         return ApplicationModel.findById(id)
     }
 
+    async getByIds(ids: ObjectId[]): Promise<ApplicationDoc[]> {
+        const query: FilterQuery<ApplicationDoc> = {
+            _id: {
+                $in: ids
+            }
+        }
+
+        return ApplicationModel.find(query)
+    }
+
     async getBySpatial(lon: number, lat: number): Promise<ApplicationDoc[]> {
         const query: FilterQuery<ApplicationDoc> = {
             type: ApplicationType.Lost,
