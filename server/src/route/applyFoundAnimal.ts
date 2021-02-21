@@ -1,12 +1,16 @@
 import { JSONSchemaType } from 'ajv'
 import { get } from 'lodash'
+import { ObjectId } from 'mongodb'
 
-import { Route, RouteParams, UserRouteParams } from '@interfaces/route'
+import applicationService from '@src/service/application'
+import inverseIndexService from '@src/service/inverseIndex'
+import emailService from '@src/service/email'
+import userService from '@src/service/user'
+
+import { Route, UserRouteParams } from '@interfaces/route'
 import { RouteRequestData, RouteResponse } from '@interfaces/route/applyFoundAnimal'
-import { ApplicationType, Kind, Color, Sex, Size } from '@interfaces/model/application'
-import ApplicationService from '@src/service/application'
-import InverseIndexService from '@src/service/inverseIndex'
-import { ApplicationRequest } from '@interfaces/service/application'
+import { ApplicationType, Kind, Color, Sex, Size, ApplicationDoc } from '@interfaces/model/application'
+import { UserDoc } from '@interfaces/model/user'
 
 class ApplyFoundAnimalRoute implements Route<RouteRequestData> {
     readonly isAuthProtected: boolean = true
@@ -32,7 +36,8 @@ class ApplyFoundAnimalRoute implements Route<RouteRequestData> {
     }
 
     async handler(params: UserRouteParams<RouteRequestData>): Promise<RouteResponse> {
-        await ApplicationService.create(params.user._id, ApplicationType.Found, params.data)
+        const { user: { _id: userId, email: founderEmail } } = params
+        await applicationService.create(userId, ApplicationType.Found, params.data)
 
         const {
             breed,
@@ -43,21 +48,38 @@ class ApplyFoundAnimalRoute implements Route<RouteRequestData> {
             coordinates,
         } = params.data;
 
-        const similars = await InverseIndexService.getByTags(breed, color, size, sex, kind)
+        const similars = await inverseIndexService.getByTags(breed, color, size, sex, kind)
 
         let objSim = similars
             ? similars.toObject()
             : null;
 
-        let objArr = get(objSim, `${sex}.${kind}.${size}.${color}.${breed}`, [])
-        let objSet = new Set<string>(objArr)
+        let objArr: ObjectId[] = get(objSim, `${sex}.${kind}.${size}.${color}.${breed}`, [])
+        let objSet = new Set<string>(objArr.map((id: ObjectId) => id.toHexString()))
 
         if (coordinates) {
-            const spatialSimilars = await ApplicationService.getBySpatial(coordinates[0], coordinates[1])
+            const spatialSimilars: ApplicationDoc[] = await applicationService.getBySpatial(coordinates[0], coordinates[1])
             spatialSimilars.forEach((value) => {
-                objSet.add(value._id)
+                objSet.add(value._id.toHexString())
             })
         }
+
+        const ids: ObjectId[] = [...objSet].map((id: string) => new ObjectId(id))
+        const applications: ApplicationDoc[] = await applicationService.getByIds(ids)
+        const tasks: Promise<unknown>[] = applications.map(async ({ userId }: ApplicationDoc) => {
+            if (!userId) {
+                return
+            }
+
+            const user: UserDoc | null = await userService.getById(userId)
+            if (!user) {
+                return
+            }
+
+            return emailService.sendMail(user.email, `Ми знайшли вашу собаку. Пишіть на емейл знахіднику: ${founderEmail}`)
+        })
+        await Promise.all(tasks)
+
 
         return {
             success: true,
