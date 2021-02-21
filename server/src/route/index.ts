@@ -14,6 +14,7 @@ import applyFoundAnimal from './applyFoundAnimal'
 import applyLostAnimal from './applyLostAnimal'
 import track from './track'
 import getDevices from './getDevices'
+import connectDevice from './connectDevice'
 
 import ValidationError from '@src/errors/ValidationError'
 import UnauthorizedError from '@src/errors/UnauthorizedError'
@@ -37,8 +38,9 @@ class RouteHandler {
         this.router.post('/api/application-found', this.handleRoute(applyFoundAnimal))
         this.router.post('/api/application-lost', this.handleRoute(applyLostAnimal))
         this.router.post('/api/track', this.handleRoute(track))
-        this.router.post('/api/devices', this.handleRoute(getDevices))
+        this.router.get('/api/devices', this.handleRoute(getDevices))
         this.router.get('/api/list', this.handleRoute(listApplications))
+        this.router.post('/api/device/connect', this.handleRoute(connectDevice))
 
         app.use(this.router.routes())
         app.use(this.router.allowedMethods())
