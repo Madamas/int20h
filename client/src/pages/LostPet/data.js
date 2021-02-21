@@ -1,5 +1,15 @@
-import { PET_SIZE, ANIMAL_KIND, COLOR } from '../../config';
+import { PET_SIZE, ANIMAL_KIND, COLOR, SEX, DOG_BREED, CAT_BREED, BIRD_BREED } from '../../config';
 
+export const sexOptions = [
+  {
+    value: SEX.male,
+    text: 'Чоловічий'
+  },
+  {
+    value: SEX.female,
+    text: 'Жіночий'
+  }
+]
 
 export const colorOptions = [
   {
@@ -67,3 +77,9 @@ export const LINE_SIZES = {
     [PET_SIZE.Large]: '56%',
   },
 };
+
+export const breedOptions = {
+  [ANIMAL_KIND.Dog]: Object.keys(DOG_BREED).map(breed => ({value: breed, text: breed})), 
+  [ANIMAL_KIND.Cat]: Object.keys(CAT_BREED).map(breed => ({value: breed, text: breed})),
+  [ANIMAL_KIND.Bird]: Object.keys(BIRD_BREED).map(breed => ({value: breed, text: breed})),
+}

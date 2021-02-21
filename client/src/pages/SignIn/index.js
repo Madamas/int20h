@@ -1,19 +1,24 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { view } from '@risingstack/react-easy-state';
+import {userStore} from '../../store';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { signIn } from '../../api';
+import { setUserToken, getUserToken } from '../../utils';
 import { useStyles } from './styles';
 
-
-export function SignIn() {
+export const SignIn = view(() => {
   const classes = useStyles();
+  const history = useHistory();
+  
+  const { setToken, token: storeToken } = userStore;
+  const userToken = storeToken || getUserToken();
 
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -26,9 +31,19 @@ export function SignIn() {
     setPassword(event.target.value);
   }
 
+  useEffect(() => {
+    if (userToken) {
+      history.push('/');
+    }
+  }, []);
+
   const handleClick = async () => {
     const response = await signIn({ name, password });
-    console.log(response);
+    const afterRedirect = localStorage.getItem('after-redirect');
+    const redirectURL = afterRedirect || '/';
+    setUserToken(response.data.token);
+    setToken(response.data.token);
+    history.push(redirectURL);
   }
 
   return (
@@ -63,10 +78,6 @@ export function SignIn() {
               autoComplete="current-password"
               onChange={handleChangePassword}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -89,4 +100,4 @@ export function SignIn() {
       </Grid>
     </Grid>
   );
-}
+});

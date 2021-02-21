@@ -1,6 +1,9 @@
 import axios from 'axios';
+import { getUserToken } from '../utils';
 
-const BASE_URL = 'https://int-20h-5d3bq.ondigitalocean.app';
+// const BASE_URL = 'https://int-20h-5d3bq.ondigitalocean.app';
+const BASE_URL = 'http://localhost:3000';
+// const BASE_URL = 'http://161.35.222.200';
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -9,18 +12,91 @@ const apiClient = axios.create({
 
 export const signUp = ({ email, name, password }) => {
   const url = '/api/sign-up';
-  return apiClient.post(url, { email, name, password });
+  const headers = {};
+  const token = getUserToken();
+  if (token) {
+    headers['token'] = token;
+  }
+
+  return apiClient.post(url, { email, name, password }, { headers });
 };
 
 export const signIn = ({ name, password }) => {
   const url = '/api/sing-in';
-  return apiClient.post(url, { name, password });
+  const headers = {};
+  const token = getUserToken();
+  if (token) {
+    headers['token'] = token;
+  }
+  return apiClient.post(url, { name, password }, { headers });
 };
 
-export const applicationFound = ({kind, breed, color, size, sex, coordinates, special = ''}) => {
+export const applicationFound = ({
+  kind,
+  breed,
+  color,
+  size,
+  sex,
+  coordinates,
+  special = '',
+}) => {
   const url = '/api/application-found';
-  return apiClient.post(url, { kind, breed, color, size, sex, coordinates, special });
+  const headers = {};
+  const token = getUserToken();
+  if (token) {
+    headers['token'] = token;
+  }
+  return apiClient.post(
+    url,
+    {
+      kind,
+      breed,
+      color,
+      size,
+      sex,
+      coordinates,
+      special,
+    },
+    { headers }
+  );
 };
 
-// this.router.post('/api/application-found', this.handleRoute(applyFoundAnimal))
-// this.router.post('/api/application-lost', this.handleRoute(applyLostAnimal))
+export const applicationLost = ({
+  kind,
+  breed,
+  color,
+  size,
+  sex,
+  coordinates,
+  special = '',
+}) => {
+  const url = '/api/application-lost';
+  const headers = {};
+  const token = getUserToken();
+  if (token) {
+    headers['token'] = token;
+  }
+  return apiClient.post(
+    url,
+    {
+      kind,
+      breed,
+      color,
+      size,
+      sex,
+      coordinates,
+      special,
+    },
+    { headers }
+  );
+};
+
+export const devices = ({ deviceId, animalName }) => {
+  const url = '/api/devices';
+  const headers = {};
+  const token = getUserToken();
+  if (token) {
+    headers['token'] = token;
+  }
+  return apiClient.post(url, { deviceId, animalName }, { headers });
+}
