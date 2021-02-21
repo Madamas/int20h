@@ -59,6 +59,7 @@ class ButtonListener {
                 geo: { type: GeoType.Point, coordinates },
                 special: [],
                 userTgId: ctx.message.from.id,
+                tgUsername: ctx.message.from.username,
                 image: photo
             }
 

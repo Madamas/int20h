@@ -17,6 +17,7 @@ const applicationSchema: Schema = new Schema(
         sex: { type: String },
         userId: { type: ObjectId },
         userTgId: { type: Number },
+        tgUsername: { type: String },
         image: { type: String },
         special: { type: Array(String) }
     },

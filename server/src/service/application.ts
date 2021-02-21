@@ -43,7 +43,6 @@ class ApplicationService {
     }
 
     async getBySpatial(lon: number, lat: number): Promise<ApplicationDoc[]> {
-        // lon lat
         const query: FilterQuery<ApplicationDoc> = {
             geo: {
                 $geoWithin: {

@@ -112,6 +112,7 @@ export interface Application {
     sex?: Sex
     userId?: ObjectId
     userTgId?: number
+    tgUsername?: string
     image?: string
 }
 
