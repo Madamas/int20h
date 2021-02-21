@@ -1,4 +1,4 @@
-FROM madamas/int20h-base:1.0.0
+FROM madamas/int20h-base:1.0.1
 
 WORKDIR /opt/app/server
 COPY server/ /opt/app/server/
