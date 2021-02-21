@@ -34,7 +34,7 @@ export const Home = () => {
     }
 
     if (page === 'volonteer') {
-      history.push('/volonteer');
+      window.location.href = 'http://t.me/lost_pussy_bot';
       return;
     }
 
@@ -47,10 +47,20 @@ export const Home = () => {
       history.push('/signup');
       return;
     }
+
+    if (page === 'monitoring') {
+      if (token) {
+        history.push('/monitoring');
+        return;
+      }
+      localStorage.setItem('after-redirect', 'monitoring');
+      history.push('/signup');
+      return;
+    }
   };
 
   return (
-    <>
+    <div>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <Paper className={cs(s.paper, s.title)} onClick={handleClick('lost')}>
@@ -86,7 +96,10 @@ export const Home = () => {
 
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <Paper className={cs(s.paper, s.title)} onClick={handleClick('addpet')}>
+          <Paper
+            className={cs(s.paper, s.title)}
+            onClick={handleClick('addpet')}
+          >
             <Typography variant="subtitle1">Додати нашийник</Typography>
             <img
               src="https://comps.canstockphoto.com/simple-black-and-white-dog-collar-image_csp36194978.jpg"
@@ -94,8 +107,19 @@ export const Home = () => {
             />
           </Paper>
         </Grid>
-
+        <Grid item xs={4}>
+          <Paper
+            className={cs(s.paper, s.title)}
+            onClick={handleClick('monitoring')}
+          >
+            <Typography variant="subtitle1">Моніторинг</Typography>
+            <img
+              src="https://i.pinimg.com/originals/80/46/5d/80465d2a3f88531a8a9fbd097c89e363.png"
+              className={s.img}
+            />
+          </Paper>
+        </Grid>
       </Grid>
-    </>
+    </div>
   );
 };

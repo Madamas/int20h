@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { useStyles } from './styles';
 import { modalStore } from '../../store';
-import { devices } from '../../api';
+import { addDevice } from '../../api';
 
 export const AddPet = () => {
   const classes = useStyles();
@@ -25,7 +25,7 @@ export const AddPet = () => {
 
   const handleSubmit = async () => {
     try {
-      await devices({ deviceId: device, animalName: petName });
+      await addDevice({ deviceId: device, animalName: petName });
       modalStore.openSuccess(() => history.push('/'));
     } catch (e) {
       modalStore.openFailed(() => history.push('/'));

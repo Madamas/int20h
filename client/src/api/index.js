@@ -2,7 +2,8 @@ import axios from 'axios';
 import { getUserToken } from '../utils';
 
 // const BASE_URL = 'https://int-20h-5d3bq.ondigitalocean.app';
-const BASE_URL = 'http://localhost:3000';
+// const BASE_URL = 'http://localhost:3000';
+const BASE_URL = '';
 // const BASE_URL = 'http://161.35.222.200';
 
 const apiClient = axios.create({
@@ -91,12 +92,22 @@ export const applicationLost = ({
   );
 };
 
-export const devices = ({ deviceId, animalName }) => {
-  const url = '/api/devices';
+export const addDevice = ({ deviceId, animalName }) => {
+  const url = '/api/device/connect';
   const headers = {};
   const token = getUserToken();
   if (token) {
     headers['token'] = token;
   }
   return apiClient.post(url, { deviceId, animalName }, { headers });
-}
+};
+
+export const device = () => {
+  const url = '/api/devices';
+  const headers = {};
+  const token = getUserToken();
+  if (token) {
+    headers['token'] = token;
+  }
+  return apiClient.get(url, {headers});
+};

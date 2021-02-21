@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { view } from '@risingstack/react-easy-state';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { signUp } from '../../api';
 import { useStyles } from './styles';
 import { setUserToken, getUserToken } from '../../utils';
-import {userStore} from '../../store';
+import { userStore } from '../../store';
 
 export const SignUp = view(() => {
   const classes = useStyles();
@@ -59,7 +58,7 @@ export const SignUp = view(() => {
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
-            Sign Up
+            Реєстрація
           </Typography>
           <div className={classes.form} noValidate>
             <TextField
@@ -80,7 +79,7 @@ export const SignUp = view(() => {
               required
               fullWidth
               id="name"
-              label="Name"
+              label="Ім'я"
               name="name"
               onChange={handleChangeName}
             />
@@ -90,7 +89,7 @@ export const SignUp = view(() => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Пароль"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -104,12 +103,12 @@ export const SignUp = view(() => {
               className={classes.submit}
               onClick={handleClick}
             >
-              Sign Up
+              Реєстрація
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {'Do you have an account? Sign Ip'}
+                <Link to="/signin" variant="body2">
+                  {'Є акаунт? Логін!'}
                 </Link>
               </Grid>
             </Grid>
@@ -118,4 +117,4 @@ export const SignUp = view(() => {
       </Grid>
     </Grid>
   );
-})
+});

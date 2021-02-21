@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import cs from 'classnames';
 import { view } from '@risingstack/react-easy-state';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
@@ -14,14 +14,14 @@ import Grid from '@material-ui/core/Grid';
 import { useStyles } from './styles';
 import { GuardedRoute } from './components/GuardRoute';
 import { Modal } from './components/Modal';
-import { setUserToken } from './utils'
-
+import { setUserToken } from './utils';
 
 import { LostPet } from './pages/LostPet';
 import { SignUp } from './pages/SignUp';
 import { SignIn } from './pages/SignIn';
 import { Home } from './pages/Home';
 import { AddPet } from './pages/AddPet';
+import { Monitoring } from './pages/Monitoring';
 
 import 'leaflet/dist/leaflet.css';
 
@@ -33,7 +33,7 @@ export default view(() => {
     if (!userStore.token && localStorage.getItem('token')) {
       userStore.token = localStorage.getItem('token');
     }
-  }, [])
+  }, []);
 
   const handleLogout = () => {
     userStore.setToken('');
@@ -82,11 +82,8 @@ export default view(() => {
                 component={LostPet}
                 auth={!!token}
               />
-               <GuardedRoute
-                path="/addpet"
-                component={AddPet}
-                auth={!!token}
-              />
+              <GuardedRoute path="/addpet" component={AddPet} auth={!!token} />
+              <GuardedRoute path="/monitoring" component={Monitoring} auth={!!token} />
               <Route path="/signup">
                 <SignUp />
               </Route>
