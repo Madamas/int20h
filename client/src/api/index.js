@@ -23,7 +23,7 @@ export const signUp = ({ email, name, password }) => {
 };
 
 export const signIn = ({ name, password }) => {
-  const url = '/api/sing-in';
+  const url = '/api/sign-in';
   const headers = {};
   const token = getUserToken();
   if (token) {
