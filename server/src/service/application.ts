@@ -1,10 +1,10 @@
 import { ObjectId } from 'mongodb'
 import { FilterQuery } from 'mongoose'
 
+import UserService from '@src/service/user'
+import MailService from '@src/service/email'
 import ApplicationModel from '@src/model/application'
-
 import { Application, ApplicationDoc, ApplicationType, GeoType } from '@interfaces/model/application'
-
 import { ApplicationRequest } from '@interfaces/service/application'
 
 class ApplicationService {
@@ -36,6 +36,14 @@ class ApplicationService {
 
         const { geo: { coordinates } } = application
         const spatialSimilars = await this.getBySpatial(coordinates[0], coordinates[1])
+
+        for (const doc of spatialSimilars) {
+            const docObj = doc.toObject()
+            const user = await UserService.getById(docObj.userId)
+
+            const body = `Ladies and gentleman. We got him. You can write to author here -> ${application.tgUsername}`
+            await MailService.sendMail(user?.email!, body)
+        }
     }
 
     async getById(id: ObjectId): Promise<ApplicationDoc | null> {
@@ -44,6 +52,7 @@ class ApplicationService {
 
     async getBySpatial(lon: number, lat: number): Promise<ApplicationDoc[]> {
         const query: FilterQuery<ApplicationDoc> = {
+            type: ApplicationType.Lost,
             geo: {
                 $geoWithin: {
                     $centerSphere: [[lon, lat], 500]
