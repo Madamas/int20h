@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { FilterQuery, UpdateQuery } from 'mongoose'
+import { FilterQuery } from 'mongoose'
 
 import ApplicationModel from '@src/model/application'
 
@@ -25,6 +25,10 @@ class ApplicationService {
         }
 
         return ApplicationModel.create(application)
+    }
+
+    async listApplications(): Promise<ApplicationDoc[]> {
+        return ApplicationModel.find({}).limit(100).sort({ _id: -1 })
     }
 
     async createFromTelegram(application: Application): Promise<void> {

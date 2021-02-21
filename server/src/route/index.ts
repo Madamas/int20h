@@ -19,6 +19,7 @@ import ValidationError from '@src/errors/ValidationError'
 import UnauthorizedError from '@src/errors/UnauthorizedError'
 import { SessionDoc } from '@interfaces/model/session'
 import { UserDoc } from '@interfaces/model/user'
+import listApplications from './listApplications'
 
 class RouteHandler {
     private readonly router = new Router()
@@ -37,6 +38,7 @@ class RouteHandler {
         this.router.post('/api/application-lost', this.handleRoute(applyLostAnimal))
         this.router.post('/api/track', this.handleRoute(track))
         this.router.post('/api/devices', this.handleRoute(getDevices))
+        this.router.get('/api/list', this.handleRoute(listApplications))
 
         app.use(this.router.routes())
         app.use(this.router.allowedMethods())
