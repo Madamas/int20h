@@ -1,0 +1,11 @@
+FROM node:14.15-alpine
+
+WORKDIR /opt/app/server
+
+COPY server/package.json server/yarn.lock server/.env.example /opt/app/server/
+RUN yarn install --frozen-lockfile
+
+WORKDIR /opt/app/client
+
+COPY client/package.json client/yarn.lock /opt/app/client/
+RUN yarn install --frozen-lockfile

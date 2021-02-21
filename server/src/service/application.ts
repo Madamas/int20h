@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { FilterQuery, UpdateQuery } from 'mongoose'
+import { FilterQuery } from 'mongoose'
 
 import ApplicationModel from '@src/model/application'
 
@@ -27,12 +27,22 @@ class ApplicationService {
         return ApplicationModel.create(application)
     }
 
+    async listApplications(): Promise<ApplicationDoc[]> {
+        return ApplicationModel.find({}).limit(100).sort({ _id: -1 })
+    }
+
+    async createFromTelegram(application: Application): Promise<void> {
+        await ApplicationModel.create(application)
+
+        const { geo: { coordinates } } = application
+        const spatialSimilars = await this.getBySpatial(coordinates[0], coordinates[1])
+    }
+
     async getById(id: ObjectId): Promise<ApplicationDoc | null> {
         return ApplicationModel.findById(id)
     }
 
     async getBySpatial(lon: number, lat: number): Promise<ApplicationDoc[]> {
-        // lon lat
         const query: FilterQuery<ApplicationDoc> = {
             geo: {
                 $geoWithin: {

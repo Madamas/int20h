@@ -1,11 +1,12 @@
 import { JSONSchemaType } from 'ajv'
 import { get } from 'lodash'
 
-import { Route, UserRouteParams } from '@interfaces/route'
+import { Route, RouteParams, UserRouteParams } from '@interfaces/route'
 import { RouteRequestData, RouteResponse } from '@interfaces/route/applyFoundAnimal'
 import { ApplicationType, Kind, Color, Sex, Size } from '@interfaces/model/application'
 import ApplicationService from '@src/service/application'
 import InverseIndexService from '@src/service/inverseIndex'
+import { ApplicationRequest } from '@interfaces/service/application'
 
 class ApplyFoundAnimalRoute implements Route<RouteRequestData> {
     readonly isAuthProtected: boolean = true
@@ -14,29 +15,24 @@ class ApplyFoundAnimalRoute implements Route<RouteRequestData> {
         type: 'object',
         properties: {
             kind: { type: 'string', enum: Object.values(Kind) },
-            breed: { type: 'string' },
-            color: { type: 'string', enum: Object.values(Color) },
-            size: { type: 'string', enum: Object.values(Size) },
-            sex: { type: 'string', enum: Object.values(Sex) },
+            breed: { type: 'string', nullable: true },
+            color: { type: 'string', enum: Object.values(Color), nullable: true },
+            size: { type: 'string', enum: Object.values(Size), nullable: true },
+            sex: { type: 'string', enum: Object.values(Sex), nullable: true },
             coordinates: {
                 type: 'array',
                 items: { type: 'number' }
             },
             special: {
                 type: 'array',
-                items: { type: 'string' }
+                items: { type: 'string' },
             },
-            image: { type: 'string' }
         },
-        oneOf: [
-            { required: ['kind', 'breed', 'color', 'size', 'sex'] }, // web 
-            { required: ['kind', 'coordinates', 'image'] } // tg
-        ],
-        required: []
+        required: ['kind']
     }
 
     async handler(params: UserRouteParams<RouteRequestData>): Promise<RouteResponse> {
-        const application = await ApplicationService.create(params.user._id, ApplicationType.Found, params.data)
+        await ApplicationService.create(params.user._id, ApplicationType.Found, params.data)
 
         const {
             breed,

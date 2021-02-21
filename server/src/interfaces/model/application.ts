@@ -104,14 +104,16 @@ export enum ApplicationType {
 export interface Application {
     type: ApplicationType
     kind: Kind
-    breed: Breed
-    color: Color
-    size: Size
+    breed?: Breed
+    color?: Color
+    size?: Size
     geo: ApplicationCoordinates
     special: string[]
-    sex: Sex
-    userId: ObjectId
-    image: string
+    sex?: Sex
+    userId?: ObjectId
+    userTgId?: number
+    tgUsername?: string
+    image?: string
 }
 
 export interface ApplicationDoc extends Application, Document { }

@@ -12,6 +12,8 @@ import route from '@src/route'
 
 import { botApp } from '@src/bot'
 
+import EmailService from '@src/service/email'
+
 class Main {
     private static readonly app = new Koa()
 
@@ -23,6 +25,9 @@ class Main {
 
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useCreateIndex: true })
         logger.info('Connected to the database')
+
+        await EmailService.init()
+        logger.info('Initialized email service')
 
         this.app.listen(
             config.port,
