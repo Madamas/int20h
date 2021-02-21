@@ -1,19 +1,24 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import { view } from '@risingstack/react-easy-state';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { signUp } from '../../api';
 import { useStyles } from './styles';
+import { setUserToken, getUserToken } from '../../utils';
+import {userStore} from '../../store';
 
-
-export function SignUp() {
+export const SignUp = view(() => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const { setToken, token: storeToken } = userStore;
+  const userToken = storeToken || getUserToken();
 
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -21,20 +26,31 @@ export function SignUp() {
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
-  }
+  };
 
   const handleChangeName = (event) => {
     setName(event.target.value);
-  }
+  };
 
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
-  }
+  };
+
+  useEffect(() => {
+    if (userToken) {
+      history.push('/');
+    }
+  }, []);
 
   const handleClick = async () => {
     const response = await signUp({ email, name, password });
-    console.log(response);
-  }
+
+    const afterRedirect = localStorage.getItem('after-redirect');
+    const redirectURL = afterRedirect || '/';
+    setUserToken(response.data.token);
+    setToken(response.data.token);
+    history.push(redirectURL);
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -58,7 +74,7 @@ export function SignUp() {
               onChange={handleChangeEmail}
               autoFocus
             />
-             <TextField
+            <TextField
               variant="outlined"
               margin="normal"
               required
@@ -80,10 +96,6 @@ export function SignUp() {
               autoComplete="current-password"
               onChange={handleChangePassword}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -92,12 +104,12 @@ export function SignUp() {
               className={classes.submit}
               onClick={handleClick}
             >
-              Sign In
+              Sign Up
             </Button>
             <Grid container>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Do you have an account? Sign Ip"}
+                  {'Do you have an account? Sign Ip'}
                 </Link>
               </Grid>
             </Grid>
@@ -106,4 +118,4 @@ export function SignUp() {
       </Grid>
     </Grid>
   );
-}
+})

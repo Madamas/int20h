@@ -4,6 +4,9 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
+  logo: {
+    cursor: 'pointer'
+  },
   notificationLink: {
     marginLeft: 5
   },
@@ -12,6 +15,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    color: 'white',
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
