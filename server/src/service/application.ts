@@ -35,11 +35,14 @@ class ApplicationService {
         await ApplicationModel.create(application)
 
         const { geo: { coordinates } } = application
-        const spatialSimilars = await this.getBySpatial(coordinates[0], coordinates[1])
+        const spatialSimilars: ApplicationDoc[] = await this.getBySpatial(coordinates[0], coordinates[1])
 
         for (const doc of spatialSimilars) {
-            const docObj = doc.toObject()
-            const user = await UserService.getById(docObj.userId)
+            if (!doc.userId) {
+                continue;
+            }
+
+            const user = await UserService.getById(doc.userId)
 
             const body = `Ladies and gentleman. We got him. You can write to author here -> ${application.tgUsername}`
             await MailService.sendMail(user?.email!, body)
