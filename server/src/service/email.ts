@@ -10,9 +10,9 @@ class EmailService {
         this.account = await nodemailer.createTestAccount();
 
         this.transport = nodemailer.createTransport({
-            host: 'smtp.ethereal.mail',
-            port: 587,
-            secure: false,
+            host: this.account.smtp.host,
+            port: this.account.smtp.port,
+            secure: this.account.smtp.secure,
             auth: {
                 user: this.account.user,
                 pass: this.account.pass
