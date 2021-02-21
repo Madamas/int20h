@@ -58,7 +58,7 @@ class ApplyFoundAnimalRoute implements Route<RouteRequestData> {
         let objSet = new Set<string>(objArr.map((id: ObjectId) => id.toHexString()))
 
         if (coordinates) {
-            const spatialSimilars: ApplicationDoc[] = await applicationService.getBySpatial(coordinates[0], coordinates[1])
+            const spatialSimilars: ApplicationDoc[] = await applicationService.getBySpatial(coordinates[0], coordinates[1], kind)
             spatialSimilars.forEach((value) => {
                 objSet.add(value._id.toHexString())
             })

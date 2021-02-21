@@ -4,7 +4,7 @@ import { FilterQuery } from 'mongoose'
 import UserService from '@src/service/user'
 import MailService from '@src/service/email'
 import ApplicationModel from '@src/model/application'
-import { Application, ApplicationDoc, ApplicationType, GeoType } from '@interfaces/model/application'
+import { Application, ApplicationDoc, ApplicationType, GeoType, Kind } from '@interfaces/model/application'
 import { ApplicationRequest } from '@interfaces/service/application'
 
 class ApplicationService {
@@ -35,7 +35,7 @@ class ApplicationService {
         await ApplicationModel.create(application)
 
         const { geo: { coordinates } } = application
-        const spatialSimilars: ApplicationDoc[] = await this.getBySpatial(coordinates[0], coordinates[1])
+        const spatialSimilars: ApplicationDoc[] = await this.getBySpatial(coordinates[0], coordinates[1], application.kind)
 
         for (const doc of spatialSimilars) {
             if (!doc.userId) {
@@ -65,9 +65,10 @@ class ApplicationService {
         return ApplicationModel.find(query)
     }
 
-    async getBySpatial(lon: number, lat: number): Promise<ApplicationDoc[]> {
+    async getBySpatial(lon: number, lat: number, kind: Kind): Promise<ApplicationDoc[]> {
         const query: FilterQuery<ApplicationDoc> = {
             type: ApplicationType.Lost,
+            kind,
             geo: {
                 $geoWithin: {
                     $centerSphere: [[lon, lat], 500]
