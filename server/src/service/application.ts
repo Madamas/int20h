@@ -45,7 +45,9 @@ class ApplicationService {
             const user = await UserService.getById(doc.userId)
 
             const body = `Ladies and gentleman. We got him. You can write to author here -> ${application.tgUsername}`
-            await MailService.sendMail(user?.email!, body)
+            if (user?.email) {
+                await MailService.sendMail(user.email, body)
+            }
         }
     }
 
